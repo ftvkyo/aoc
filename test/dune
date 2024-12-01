@@ -1,2 +1,5 @@
 (test
- (name test_aoc))
+ (name test_aoc)
+ (deps
+  (glob_files "../data/*.txt"))
+ (libraries aoc alcotest))
