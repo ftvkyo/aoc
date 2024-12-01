@@ -5,6 +5,8 @@ let test_problem problem filename expected () =
   check string "same string" got expected
 
 let suite =
-  [ ("d01a", `Quick, test_problem "d01a" "../data/d01.txt" "11") ]
+  [ ("d01a", `Quick, test_problem "d01a" "../data/d01.txt" "11")
+  ; ("d01b", `Quick, test_problem "d01b" "../data/d01.txt" "31")
+  ]
 
 let () = Alcotest.run "AoC examples" [ ("Example", suite) ]

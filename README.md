@@ -13,3 +13,8 @@ dune exec aoc -- ${ID} ${INPUT_FILENAME}
 # For example:
 dune exec aoc -- d01a data/d01.txt
 ```
+
+Run tests:
+```sh
+dune test
+```
