@@ -12,5 +12,9 @@ let test_problem problem expected =
     (problem, `Quick, test_problem_io problem filename expected)
   else raise @@ Invalid_argument ("could not parse id " ^ problem)
 
-let suite = [ test_problem "d01a" "11"; test_problem "d01b" "31" ]
+let suite =
+  [
+    test_problem "d01a" "11"; test_problem "d01b" "31"; test_problem "d02a" "2";
+  ]
+
 let () = Alcotest.run "AoC examples" [ ("Example", suite) ]
