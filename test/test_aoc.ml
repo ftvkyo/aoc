@@ -2,7 +2,7 @@ open Alcotest
 
 let test_problem_io problem filename expected () =
   let produced = Aoc.solve ~problem @@ Arg.read_arg filename in
-  check string "same string" produced expected
+  check string "same string" expected produced
 
 let test_problem problem expected =
   let id_re = Str.regexp {|^\(d[0-9]+\)[ab]$|} in
@@ -14,7 +14,10 @@ let test_problem problem expected =
 
 let suite =
   [
-    test_problem "d01a" "11"; test_problem "d01b" "31"; test_problem "d02a" "2";
+    test_problem "d01a" "11";
+    test_problem "d01b" "31";
+    test_problem "d02a" "2";
+    test_problem "d02b" "4";
   ]
 
 let () = Alcotest.run "AoC examples" [ ("Example", suite) ]

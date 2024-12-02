@@ -5,4 +5,5 @@ let solve ~(problem : string) : string array -> string =
   | "d01a" -> D01a.solve
   | "d01b" -> D01b.solve
   | "d02a" -> D02a.solve
+  | "d02b" -> D02b.solve
   | _ -> raise @@ ProblemNotFound problem
