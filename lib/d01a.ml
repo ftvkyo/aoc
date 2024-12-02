@@ -1,8 +1,6 @@
 let extract_ids line : int * int =
-  let delim = Str.regexp {|[ \t]+|} in
-  let string_ids = Str.split delim line in
-  let int_ids = List.map int_of_string string_ids in
-  (List.hd int_ids, List.hd @@ List.tl int_ids)
+  let ints = Common.ints line in
+  List.(hd ints, hd @@ tl ints)
 
 let distance (a, b) : int = abs @@ (a - b)
 let distances ids_a ids_b = Seq.map distance @@ Seq.zip ids_a ids_b
