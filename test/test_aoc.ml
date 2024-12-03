@@ -1,24 +1,21 @@
 open Alcotest
 
-let test_problem_io problem filename expected () =
-  let produced = Aoc.solve ~problem @@ Arg.read_arg filename in
+let expect_io expected ~problem ~input () =
+  let produced = Aoc.solve ~problem @@ Arg.read_arg input in
   check string "same string" expected produced
 
-let test_problem problem expected =
-  let id_re = Str.regexp {|^\(d[0-9]+\)[ab]$|} in
-  if Str.string_match id_re problem 0 then
-    let id = Str.matched_group 1 problem in
-    let filename = "../data/" ^ id ^ ".txt" in
-    (problem, `Quick, test_problem_io problem filename expected)
-  else raise @@ Invalid_argument ("could not parse id " ^ problem)
+let expect expected ~problem ~input =
+  let input = Printf.sprintf "../data/%s.txt" input in
+  (problem, `Quick, expect_io expected ~problem ~input)
 
 let suite =
   [
-    test_problem "d01a" "11";
-    test_problem "d01b" "31";
-    test_problem "d02a" "2";
-    test_problem "d02b" "4";
-    test_problem "d03a" "161";
+    expect ~problem:"d01a" ~input:"d01" "11";
+    expect ~problem:"d01b" ~input:"d01" "31";
+    expect ~problem:"d02a" ~input:"d02" "2";
+    expect ~problem:"d02b" ~input:"d02" "4";
+    expect ~problem:"d03a" ~input:"d03a" "161";
+    expect ~problem:"d03b" ~input:"d03b" "48";
   ]
 
 let () = Alcotest.run "AoC examples" [ ("Example", suite) ]
