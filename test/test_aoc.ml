@@ -18,6 +18,7 @@ let suite =
     test_problem "d01b" "31";
     test_problem "d02a" "2";
     test_problem "d02b" "4";
+    test_problem "d03a" "161";
   ]
 
 let () = Alcotest.run "AoC examples" [ ("Example", suite) ]
