@@ -8,4 +8,5 @@ let solve ~(problem : string) : string array -> string =
   | "d02b" -> D02b.solve
   | "d03a" -> D03a.solve
   | "d03b" -> D03b.solve
+  | "d04a" -> D04a.solve
   | _ -> raise @@ ProblemNotFound problem
