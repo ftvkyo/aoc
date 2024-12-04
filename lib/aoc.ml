@@ -9,4 +9,5 @@ let solve ~(problem : string) : string array -> string =
   | "d03a" -> D03a.solve
   | "d03b" -> D03b.solve
   | "d04a" -> D04a.solve
+  | "d04b" -> D04b.solve
   | _ -> raise @@ ProblemNotFound problem
