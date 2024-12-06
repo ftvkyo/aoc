@@ -1,5 +1,5 @@
-let sort rules update =
-  let rec sort update (rule_l, rule_r) =
+let approach_sort rules update =
+  let rec approach_sort update (rule_l, rule_r) =
     match update with
     | [] -> []
     | entry :: tail ->
@@ -7,14 +7,14 @@ let sort rules update =
           let new_tail = List.filter (( <> ) rule_l) tail in
           if List.(length tail <> length new_tail) then
             (* The tail contains rule_l, move it forward *)
-            rule_l :: entry :: new_tail
+            rule_l :: rule_r :: new_tail
           else entry :: tail
-        else entry :: sort tail (rule_l, rule_r)
+        else entry :: approach_sort tail (rule_l, rule_r)
   in
-  List.fold_left sort update rules
+  List.fold_left approach_sort update rules
 
 let rec calc ?(corrected = false) rules update =
-  let sorted = sort rules update in
+  let sorted = approach_sort rules update in
   let changed = not @@ List.equal ( = ) update sorted in
   if changed then calc ~corrected:true rules sorted
   else if corrected then
