@@ -12,4 +12,5 @@ let solve ~(problem : string) : string array -> string =
   | "d04b" -> D04b.solve
   | "d05a" -> D05a.solve
   | "d05b" -> D05b.solve
+  | "d06a" -> D06a.solve
   | _ -> raise @@ ProblemNotFound problem

@@ -20,6 +20,7 @@ let suite =
     expect ~problem:"d04b" ~input:"d04" "9";
     expect ~problem:"d05a" ~input:"d05" "143";
     expect ~problem:"d05b" ~input:"d05" "123";
+    expect ~problem:"d06a" ~input:"d06" "41";
   ]
 
 let () = Alcotest.run "AoC examples" [ ("Example", suite) ]
