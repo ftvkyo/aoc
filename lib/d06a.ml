@@ -1,6 +1,6 @@
 open Common
 
-let dir c =
+let dir_of c =
   match c with
   | '^' -> Some (-1, 0)
   | '>' -> Some (0, 1)
@@ -12,9 +12,9 @@ let turn (dx, dy) = (dy, -dx)
 
 let walk (m : matrix) =
   let start_x, start_y =
-    Option.get @@ m#findi (fun c -> Option.is_some @@ dir c)
+    Option.get @@ m#findi (fun c -> Option.is_some @@ dir_of c)
   in
-  let start_dir = Option.get @@ dir @@ m#get start_x start_y in
+  let start_dir = Option.get @@ dir_of @@ m#get start_x start_y in
   m#set start_x start_y '.';
   let rec step cur dir =
     let cx, cy = cur in
