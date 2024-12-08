@@ -11,7 +11,7 @@ let next x y d =
 
 let turn d = List.assoc d dirs
 
-let walk (m : matrix) =
+let walk (m : char matrix) =
   let rec step ?blocked (visited : state list) x y d =
     if List.exists (( = ) (x, y, d)) visited then (
       print_endline @@ String.concat "\n"

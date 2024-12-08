@@ -13,9 +13,10 @@ let rec count (re : Str.regexp) (s : string) : int =
     1 + count re tail
   with _ -> 0
 
-class matrix (d : char array array) =
+class ['a] matrix (d : 'a array array) =
   object (self)
     val data = d
+    method get_data = data
     method x = Array.length d
     method y = try Array.length @@ d.(0) with _ -> 0
     method get x y = data.(x).(y)
@@ -23,15 +24,15 @@ class matrix (d : char array array) =
     method try_get x y = try Option.some @@ self#get x y with _ -> None
     method try_set x y v = try Option.some @@ self#set x y v with _ -> None
 
-    method to_string =
-      let f acc row = acc ^ "\n" ^ String.of_seq @@ Array.to_seq row in
-      Array.fold_left f "" data
-
-    method iteri (f : int -> int -> char -> unit) : unit =
+    method iteri (f : int -> int -> 'a -> unit) : unit =
       let f x row = Array.iteri (f x) row in
       Array.iteri f data
 
-    method findi (f : char -> bool) : (int * int) option =
+    method mapi (f : int -> int -> 'a -> 'b) : 'b matrix =
+      let f x row = Array.mapi (f x) row in
+      new matrix @@ Array.mapi f data
+
+    method findi (f : 'a -> bool) : (int * int) option =
       let row =
         let f row = Array.exists f row in
         Array.find_index f data
@@ -51,3 +52,7 @@ let matrix_of (default : char) (data : string array) =
 
 let matrix_init (default : char) x y =
   new matrix @@ Array.init_matrix x y (fun _ _ -> default)
+
+let string_of_matrix (m : char matrix) =
+  let f acc row = acc ^ "\n" ^ String.of_seq @@ Array.to_seq row in
+  Array.fold_left f "" m#get_data

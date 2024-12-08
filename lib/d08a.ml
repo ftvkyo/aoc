@@ -3,7 +3,7 @@ open Common
 let empty = '.'
 let node = '#'
 
-let find_antennas (map : matrix) =
+let find_antennas (map : char matrix) =
   let antennas : (char, int * int) Hashtbl.t =
     Hashtbl.create @@ (map#x * map#y)
   in
@@ -11,7 +11,7 @@ let find_antennas (map : matrix) =
   map#iteri add_antenna;
   antennas
 
-let find_antinodes (map_nodes : matrix) antennas ac (ax, ay) =
+let find_antinodes (map_nodes : char matrix) antennas ac (ax, ay) =
   let siblings = Hashtbl.find_all antennas ac in
   let add_nodes (x, y) =
     if (x, y) <> (ax, ay) then
@@ -27,7 +27,7 @@ let solve (input : string array) : string =
   let antennas = find_antennas city_map in
   let node_map = matrix_init empty city_map#x city_map#y in
   Hashtbl.iter (find_antinodes node_map antennas) antennas;
-  print_endline @@ city_map#to_string;
-  print_endline @@ node_map#to_string;
+  print_endline @@ string_of_matrix city_map;
+  print_endline @@ string_of_matrix node_map;
   let re_node = Str.regexp @@ Str.quote @@ Char.escaped node in
-  Int.to_string @@ count re_node node_map#to_string
+  Int.to_string @@ count re_node @@ string_of_matrix node_map

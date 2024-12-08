@@ -10,7 +10,7 @@ let dir_of c =
 
 let turn (dx, dy) = (dy, -dx)
 
-let walk (m : matrix) =
+let walk (m : char matrix) =
   let start_x, start_y =
     Option.get @@ m#findi (fun c -> Option.is_some @@ dir_of c)
   in
@@ -31,7 +31,7 @@ let walk (m : matrix) =
 let solve (input : string array) : string =
   let m = matrix_of '.' input in
   walk m;
-  let s = m#to_string in
+  let s = string_of_matrix m in
   print_endline s;
   let re = Str.regexp @@ Str.quote "X" in
   Int.to_string @@ count re s
