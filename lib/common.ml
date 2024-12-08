@@ -1,3 +1,5 @@
+let rec gcd (n : int) (m : int) = if m = 0 then n else gcd m (n mod m)
+
 let ints (s : string) : int list =
   let delim = Str.regexp {|[ \t]+|} in
   let strings = Str.split delim s in
