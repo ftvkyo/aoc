@@ -17,7 +17,7 @@ class matrix (data : char array array) =
     method get x y = data.(x).(y)
     method set x y v = Array.set data.(x) y v
 
-    method to_string () =
+    method to_string =
       let f acc row = acc ^ "\n" ^ String.of_seq @@ Array.to_seq row in
       Array.fold_left f "" data
 

@@ -31,7 +31,7 @@ let walk (m : matrix) =
 let solve (input : string array) : string =
   let m = matrix_of '.' input in
   walk m;
-  let s = m#to_string () in
+  let s = m#to_string in
   print_endline s;
   let re = Str.regexp @@ Str.quote "X" in
   Int.to_string @@ count re s
