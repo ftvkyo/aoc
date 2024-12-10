@@ -50,7 +50,7 @@ let matrix_of (default : char) (data : string array) =
   let get x y = try String.get data.(x) y with Not_found -> default in
   new matrix @@ Array.init_matrix x y get
 
-let matrix_init (default : char) x y =
+let matrix_init (default : 'a) x y =
   new matrix @@ Array.init_matrix x y (fun _ _ -> default)
 
 let string_of_matrix (m : char matrix) =
