@@ -22,10 +22,9 @@ let match_mul str : int * string * int =
   let evaluate (r1, r2) =
     let m1 = int_of_string @@ Str.matched_group 1 str in
     let m2 = int_of_string @@ Str.matched_group 2 str in
-    (r1, r2, m1 * m2)
+    r1, r2, m1 * m2
   in
-  Option.value ~default:(inf, "", 0)
-  @@ Option.map evaluate @@ match_something re str
+  Option.value ~default:(inf, "", 0) @@ Option.map evaluate @@ match_something re str
 
 (**
   Find the next `do()`.

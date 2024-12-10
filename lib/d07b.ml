@@ -1,14 +1,8 @@
-let ops =
-  [
-    ( + );
-    ( * );
-    (fun a b -> int_of_string @@ Int.to_string a ^ Int.to_string b);
-  ]
+let ops = [ ( + ); ( * ); (fun a b -> int_of_string @@ Int.to_string a ^ Int.to_string b) ]
 
 let guess_ops answer args =
   let rec guess_ops acc args =
-    if acc > answer then
-      (* Stop the recursion early if we went past the answer *)
+    if acc > answer then (* Stop the recursion early if we went past the answer *)
       false
     else
       match args with

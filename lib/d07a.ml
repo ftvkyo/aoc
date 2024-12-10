@@ -1,7 +1,6 @@
 let guess_ops answer args =
   let rec guess_ops acc args =
-    if acc > answer then
-      (* Stop the recursion early if we went past the answer *)
+    if acc > answer then (* Stop the recursion early if we went past the answer *)
       false
     else
       match args with

@@ -1,11 +1,9 @@
 type rectangle = char array array
 
-let to_rect lines =
-  Array.map (fun row -> Array.of_seq @@ String.to_seq row) lines
+let to_rect lines = Array.map (fun row -> Array.of_seq @@ String.to_seq row) lines
 
 let from_rect rect =
-  String.concat "\n" @@ Array.to_list
-  @@ Array.map (fun row -> String.of_seq @@ Array.to_seq row) rect
+  String.concat "\n" @@ Array.to_list @@ Array.map (fun row -> String.of_seq @@ Array.to_seq row) rect
 
 let transpose (rect : rectangle) =
   let rect_x = Array.length rect in
@@ -34,15 +32,14 @@ let rotate_45_ccwise (rect : rectangle) =
   Array.init_matrix new_x rect_y get
 
 let transforms : (rectangle -> rectangle) list =
-  [
-    Fun.id;
-    transpose;
-    rotate_45_cwise;
-    rotate_45_ccwise;
-    rotate_180;
-    Fun.compose transpose rotate_180;
-    Fun.compose rotate_45_cwise rotate_180;
-    Fun.compose rotate_45_ccwise rotate_180;
+  [ Fun.id
+  ; transpose
+  ; rotate_45_cwise
+  ; rotate_45_ccwise
+  ; rotate_180
+  ; Fun.compose transpose rotate_180
+  ; Fun.compose rotate_45_cwise rotate_180
+  ; Fun.compose rotate_45_ccwise rotate_180
   ]
 
 let solve (input : string array) : string =

@@ -1,4 +1,5 @@
 type report = int list
+
 type 'a trend = ('a -> 'a -> bool) option
 
 let rec is_safe (tr : int trend) (re : report) : bool =

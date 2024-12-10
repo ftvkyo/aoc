@@ -7,9 +7,7 @@ let check rules update =
   let rec check update (rule_l, rule_r) =
     match update with
     | [] -> true
-    | u_entry :: u_tail ->
-        if u_entry = rule_r then ban u_tail rule_l
-        else check u_tail (rule_l, rule_r)
+    | u_entry :: u_tail -> if u_entry = rule_r then ban u_tail rule_l else check u_tail (rule_l, rule_r)
   in
   if List.for_all (check update) rules then
     let len = List.length update in
@@ -19,9 +17,7 @@ let check rules update =
 
 let solve (input : string array) : string =
   let re_rule = Str.regexp @@ Str.quote "|" in
-  let is_rule line =
-    try 0 <= Str.search_forward re_rule line 0 with _ -> false
-  in
+  let is_rule line = try 0 <= Str.search_forward re_rule line 0 with _ -> false in
   let rules = ref [] in
   let re_update = Str.regexp @@ Str.quote "," in
   let updates = ref [] in
@@ -34,7 +30,7 @@ let solve (input : string array) : string =
       let update = Str.split re_update line in
       if not @@ List.is_empty update then updates := update :: !updates
   in
-  Array.iter ingest input;
+  Array.iter ingest input ;
   let check = check !rules in
   let fold acc update = acc + check update in
   Int.to_string @@ List.fold_left fold 0 !updates

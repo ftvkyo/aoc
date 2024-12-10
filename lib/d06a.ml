@@ -8,17 +8,15 @@ let dir_of c =
   | '<' -> Some (0, -1)
   | _ -> None
 
-let turn (dx, dy) = (dy, -dx)
+let turn (dx, dy) = dy, -dx
 
 let walk (m : char matrix) =
-  let start_x, start_y =
-    Option.get @@ m#findi (fun c -> Option.is_some @@ dir_of c)
-  in
+  let start_x, start_y = Option.get @@ m#findi (fun c -> Option.is_some @@ dir_of c) in
   let start_dir = Option.get @@ dir_of @@ m#get start_x start_y in
-  m#set start_x start_y '.';
+  m#set start_x start_y '.' ;
   let rec step cur dir =
     let cx, cy = cur in
-    m#set cx cy 'X';
+    m#set cx cy 'X' ;
     let dx, dy = dir in
     try
       match m#get (cx + dx) (cy + dy) with
@@ -30,8 +28,8 @@ let walk (m : char matrix) =
 
 let solve (input : string array) : string =
   let m = matrix_of '.' input in
-  walk m;
+  walk m ;
   let s = string_of_matrix m in
-  print_endline s;
+  print_endline s ;
   let re = Str.regexp @@ Str.quote "X" in
   Int.to_string @@ count re s

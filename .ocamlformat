@@ -1,1 +1,14 @@
 version = 0.26.2
+profile = ocamlformat
+
+line-endings = lf
+margin = 120
+
+break-cases = toplevel
+break-sequences = true
+space-around-arrays = true
+space-around-lists = true
+space-around-records = true
+space-around-variants = true
+parens-tuple = multi-line-only
+parens-tuple-patterns = multi-line-only
