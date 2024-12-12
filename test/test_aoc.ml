@@ -5,8 +5,9 @@ let expect_io expected ~problem ~input () =
   check string "same string" expected produced
 
 let expect expected ~problem ~input =
+  let name = Printf.sprintf "%s (with %s.txt)" problem input in
   let input = Printf.sprintf "../data/%s.txt" input in
-  problem, `Quick, expect_io expected ~problem ~input
+  name, `Quick, expect_io expected ~problem ~input
 
 let suite =
   [ expect ~problem:"d01a" ~input:"d01" "11"
@@ -31,6 +32,8 @@ let suite =
   ; expect ~problem:"d10b" ~input:"d10" "81"
   ; expect ~problem:"d11a" ~input:"d11" "55312"
   ; expect ~problem:"d12a" ~input:"d12" "1930"
+  ; expect ~problem:"d12b" ~input:"d12" "1206"
+  ; expect ~problem:"d12b" ~input:"d12-extra" "368"
   ]
 
 let () = Alcotest.run "AoC examples" [ "Example", suite ]
