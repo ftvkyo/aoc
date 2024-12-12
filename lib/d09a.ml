@@ -14,8 +14,10 @@ let checksum (s : string) =
       let length = int_of_string @@ String.sub s l_index 1 in
       printf "index %d at position %d -> " l_index l_position ;
       if l_index mod 2 = 0 then (
-        if (* It's a file, consume entirely *)
-           l_index >= r_index then (
+        if
+          (* It's a file, consume entirely *)
+          l_index >= r_index
+        then (
           let r_id = r_index / 2 in
           let r_length = int_of_string @@ String.sub s r_index 1 in
           let r_blocks_remaining = r_length - r_blocks_consumed in
@@ -61,7 +63,8 @@ let checksum (s : string) =
                 printf
                   "    but the file id %d with index %d has been used up completely, so we will start consuming \
                    another file\n\
-                  \  retry: " r_id r_index ;
+                  \  retry: "
+                  r_id r_index ;
                 (* We used up the file from the right, but there is space remaining, so consume more *)
                 checksum l_index l_position ~l_remaining_space (r_index - 2) 0 ) )
   in
