@@ -54,6 +54,6 @@ let findi (f : int -> int -> 'a -> bool) (m : 'a t) : (int * int * 'a) option =
   | Some (x, y) -> Some (x, y, get m x y)
   | None -> None
 
-let fold_left (f : 'acc -> 'a -> 'acc) (acc : 'acc) (m : 'a t) : 'acc =
-  let f acc row = Array.fold_left f acc row in
-  Array.fold_left f acc m
+let fold_lefti (f : 'acc -> int -> int -> 'a -> 'acc) (acc : 'acc) (m : 'a t) : 'acc =
+  let f acc rowi row = Seq.fold_lefti (fun acc coli e -> f acc rowi coli e) acc @@ Array.to_seq row in
+  Seq.fold_lefti f acc @@ Array.to_seq m

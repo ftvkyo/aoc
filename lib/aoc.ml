@@ -29,6 +29,7 @@ let solvers =
   ; "d14a", D14a.solve (11, 7)
   ; "d14a-personal", D14a.solve (101, 103)
   ; "d14b", D14b.solve (101, 103)
+  ; "d15a", D15a.solve
   ]
 
 let solve ~(problem : string) : string array -> string =
