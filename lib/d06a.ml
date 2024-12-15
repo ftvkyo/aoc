@@ -10,16 +10,16 @@ let dir_of c =
 
 let turn (dx, dy) = dy, -dx
 
-let walk (m : char matrix) =
-  let start_x, start_y = Option.get @@ m#findi (fun c -> Option.is_some @@ dir_of c) in
-  let start_dir = Option.get @@ dir_of @@ m#get start_x start_y in
-  m#set start_x start_y '.' ;
+let walk (m : char Mat.t) =
+  let start_x, start_y, _ = Option.get @@ Mat.findi (fun _ _ c -> Option.is_some @@ dir_of c) m in
+  let start_dir = Option.get @@ dir_of @@ Mat.get m start_x start_y in
+  Mat.set m start_x start_y '.' ;
   let rec step cur dir =
     let cx, cy = cur in
-    m#set cx cy 'X' ;
+    Mat.set m cx cy 'X' ;
     let dx, dy = dir in
     try
-      match m#get (cx + dx) (cy + dy) with
+      match Mat.get m (cx + dx) (cy + dy) with
       | '#' -> step cur @@ turn dir
       | _ -> step (cx + dx, cy + dy) dir
     with _ -> ()
@@ -27,9 +27,9 @@ let walk (m : char matrix) =
   step (start_x, start_y) start_dir
 
 let solve (input : string array) : string =
-  let m = matrix_of '.' input in
+  let m = Mat.mat_of input in
   walk m ;
-  let s = string_of_matrix m in
+  let s = Mat.string_of_mat m in
   print_endline s ;
   let re = Str.regexp @@ Str.quote "X" in
   Int.to_string @@ count re s

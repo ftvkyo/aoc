@@ -30,9 +30,9 @@ let solve (gx, gy) (input : string array) : string =
   let seconds_max = 10000 in
   let robots = Array.map robot_parse input in
   let display (robots : (position * velocity) array) seconds =
-    let m = matrix_init ' ' gx gy in
-    Array.iter (fun (Pos (x, y), _) -> m#set x y 'X') robots ;
-    let ms = string_of_matrix m in
+    let m = Mat.make gx gy ' ' in
+    Array.iter (fun (Pos (x, y), _) -> Mat.set m x y 'X') robots ;
+    let ms = Mat.string_of_mat m in
     if count rex ms > 0 then (
       printf "\n\n%s\n" @@ String.make gy '=' ;
       printf "\n\nAfter %d seconds:\n\n" seconds ;

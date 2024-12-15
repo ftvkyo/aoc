@@ -1,5 +1,4 @@
 open Printf
-open Common
 
 type perimeter = Perimeter of int
 
@@ -31,12 +30,12 @@ let adjacent x y = [ x - 1, y; x + 1, y; x, y - 1; x, y + 1 ]
 let previous x y = [ x - 1, y; x, y - 1 ]
 
 let solve (input : string array) : string =
-  let map_plots = matrix_of '.' input in
+  let map_plots = Mat.mat_of input in
   let init_regions at_x at_y =
-    let at_plot = map_plots#get at_x at_y in
+    let at_plot = Mat.get map_plots at_x at_y in
     printf "map[%02d][%02d] = '%c'" at_x at_y at_plot ;
     let fold_perimeter p (adj_x, adj_y) =
-      let adj_plot = Option.value ~default:'.' @@ map_plots#try_get adj_x adj_y in
+      let adj_plot = Option.value ~default:'.' @@ Mat.get_opt map_plots adj_x adj_y in
       p + if adj_plot != at_plot then 1 else 0
     in
     let at_plot_info = Perimeter (List.fold_left fold_perimeter 0 @@ adjacent at_x at_y), Area 1 in
@@ -47,24 +46,24 @@ let solve (input : string array) : string =
        a ) ;
     ref @@ Info at_plot_info
   in
-  let map_regions = new matrix @@ Array.init_matrix map_plots#x map_plots#y init_regions in
+  let map_regions = Mat.init (Mat.x map_plots) (Mat.y map_plots) init_regions in
   printf "\nInitialised!\n\n" ;
   let join_plots at_x at_y at_plot =
     printf "map[%02d][%02d] = '%c'\n" at_x at_y at_plot ;
-    let current = map_regions#get at_x at_y in
+    let current = Mat.get map_regions at_x at_y in
     let iter_previous (prev_x, prev_y) =
-      match map_plots#try_get prev_x prev_y with
+      match Mat.get_opt map_plots prev_x prev_y with
       | None -> () (* Out of bounds *)
       | Some prev_plot ->
           printf " -> checking previous map[%02d][%02d] = '%c'...\n" prev_x prev_y prev_plot ;
-          let prev = map_regions#get prev_x prev_y in
+          let prev = Mat.get map_regions prev_x prev_y in
           if at_plot = prev_plot then
             let _ = attach ~src:prev ~dst:current in
             printf " -> attached!\n"
     in
     List.iter iter_previous @@ previous at_x at_y
   in
-  map_plots#iteri join_plots ;
+  Mat.iteri join_plots map_plots ;
   printf "\nCalculated!\n\n" ;
   let total = ref 0 in
   let count_info x y r =
@@ -75,5 +74,5 @@ let solve (input : string array) : string =
         total := !total + (p * a)
     | Redirect _ -> ()
   in
-  map_regions#iteri count_info ;
+  Mat.iteri count_info map_regions ;
   Int.to_string !total

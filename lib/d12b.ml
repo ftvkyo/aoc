@@ -1,5 +1,4 @@
 open Printf
-open Common
 
 (* Convex 90 deg corners and concave 90 deg corners *)
 type corners = int * int
@@ -48,34 +47,34 @@ let rec count_concave_corners ?(rotations = 4) (get : int -> int -> char) =
     this_rotation + count_concave_corners ~rotations:(rotations - 1) newget
 
 let solve (input : string array) : string =
-  let map_plots = matrix_of '.' input in
+  let map_plots = Mat.mat_of input in
   let init_regions at_x at_y =
-    let at_plot = map_plots#get at_x at_y in
+    let at_plot = Mat.get map_plots at_x at_y in
     printf "map[%02d][%02d] = '%c'" at_x at_y at_plot ;
-    let get x y = Option.value ~default:'.' @@ map_plots#try_get (at_x + x) (at_y + y) in
+    let get x y = Option.value ~default:'.' @@ Mat.get_opt map_plots (at_x + x) (at_y + y) in
     let convex = count_convex_corners get in
     let concave = count_concave_corners get in
     printf " -> on its own, has %d convex & %d concave corners\n" convex concave ;
     ref @@ Info ((convex, concave), Area 1)
   in
-  let map_regions = new matrix @@ Array.init_matrix map_plots#x map_plots#y init_regions in
+  let map_regions = Mat.init (Mat.x map_plots) (Mat.y map_plots) init_regions in
   printf "\nInitialised!\n\n" ;
   let join_plots at_x at_y at_plot =
     printf "map[%02d][%02d] = '%c'\n" at_x at_y at_plot ;
-    let current = map_regions#get at_x at_y in
+    let current = Mat.get map_regions at_x at_y in
     let iter_previous (prev_x, prev_y) =
-      match map_plots#try_get prev_x prev_y with
+      match Mat.get_opt map_plots prev_x prev_y with
       | None -> () (* Out of bounds *)
       | Some prev_plot ->
           printf " -> checking previous map[%02d][%02d] = '%c'...\n" prev_x prev_y prev_plot ;
-          let prev = map_regions#get prev_x prev_y in
+          let prev = Mat.get map_regions prev_x prev_y in
           if at_plot = prev_plot then
             let _ = attach ~src:prev ~dst:current in
             printf " -> attached!\n"
     in
     List.iter iter_previous @@ previous at_x at_y
   in
-  map_plots#iteri join_plots ;
+  Mat.iteri join_plots map_plots ;
   printf "\nCalculated!\n\n" ;
   let total = ref 0 in
   let count_info x y r =
@@ -87,5 +86,5 @@ let solve (input : string array) : string =
         total := !total + price
     | Redirect _ -> ()
   in
-  map_regions#iteri count_info ;
+  Mat.iteri count_info map_regions ;
   Int.to_string !total
