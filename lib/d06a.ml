@@ -29,7 +29,7 @@ let walk (m : char Mat.t) =
 let solve (input : string array) : string =
   let m = Mat.mat_of input in
   walk m ;
-  let s = Mat.string_of_mat m in
+  let s = Mat.to_string m in
   print_endline s ;
   let re = Str.regexp @@ Str.quote "X" in
   Int.to_string @@ count re s

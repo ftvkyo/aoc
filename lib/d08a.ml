@@ -26,7 +26,7 @@ let solve (input : string array) : string =
   let antennas = find_antennas city_map in
   let node_map = Mat.make (Mat.x city_map) (Mat.y city_map) empty in
   Hashtbl.iter (find_antinodes node_map antennas) antennas ;
-  print_endline @@ Mat.string_of_mat city_map ;
-  print_endline @@ Mat.string_of_mat node_map ;
+  print_endline @@ Mat.to_string city_map ;
+  print_endline @@ Mat.to_string node_map ;
   let re_node = Str.regexp @@ Str.quote @@ Char.escaped node in
-  Int.to_string @@ count re_node @@ Mat.string_of_mat node_map
+  Int.to_string @@ count re_node @@ Mat.to_string node_map

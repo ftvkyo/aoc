@@ -32,7 +32,7 @@ let solve (gx, gy) (input : string array) : string =
   let display (robots : (position * velocity) array) seconds =
     let m = Mat.make gx gy ' ' in
     Array.iter (fun (Pos (x, y), _) -> Mat.set m x y 'X') robots ;
-    let ms = Mat.string_of_mat m in
+    let ms = Mat.to_string m in
     if count rex ms > 0 then begin
       printf "\n\n%s\n" @@ String.make gy '=' ;
       printf "\n\nAfter %d seconds:\n\n" seconds ;

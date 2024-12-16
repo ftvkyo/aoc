@@ -14,7 +14,7 @@ let mat_of ?default (data : string array) =
   in
   init x y get
 
-let string_of_mat (m : char t) : string =
+let to_string (m : char t) : string =
   let f acc row = acc ^ "\n" ^ String.of_seq @@ Array.to_seq row in
   Array.fold_left f "" m
 

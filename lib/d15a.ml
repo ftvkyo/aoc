@@ -31,6 +31,6 @@ let solve (input : string array) : string =
   let map = Mat.mat_of @@ Array.of_seq @@ Seq.take_while (( <> ) "") input in
   let moves = Seq.map dir_of @@ Seq.flat_map String.to_seq @@ Seq.drop (1 + Mat.x map) input in
   walk map moves ;
-  print_endline @@ Mat.string_of_mat map ;
+  print_endline @@ Mat.to_string map ;
   let count acc x y c = acc + if c = 'O' then (x * 100) + y else 0 in
   Int.to_string @@ Mat.fold_lefti count 0 map
