@@ -12,10 +12,11 @@ let turn d = List.assoc d dirs
 
 let walk (m : char Mat.t) =
   let rec step ?blocked (visited : state list) x y d =
-    if List.exists (( = ) (x, y, d)) visited then (
+    if List.exists (( = ) (x, y, d)) visited then begin
       print_endline @@ String.concat "\n" @@ List.map (fun (x, y, d) -> Printf.sprintf "%c %d,%d" d x y) visited ;
       print_endline @@ Printf.sprintf "blocked: %d,%d\n" (fst @@ Option.get blocked) (snd @@ Option.get blocked) ;
-      [ Option.get blocked ] )
+      [ Option.get blocked ]
+    end
     else
       let visited = (x, y, d) :: visited in
       let nx, ny = next x y d in

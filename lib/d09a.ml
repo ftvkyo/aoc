@@ -7,33 +7,36 @@ let checksum (s : string) =
   printf "input: %s\n" s ;
   let slen = String.length s in
   let rec checksum l_index l_position ?l_remaining_space r_index r_blocks_consumed =
-    if l_index >= slen then (
+    if l_index >= slen then begin
       printf "terminating - reached the end\n" ;
-      0 )
+      0
+    end
     else
       let length = int_of_string @@ String.sub s l_index 1 in
       printf "index %d at position %d -> " l_index l_position ;
-      if l_index mod 2 = 0 then (
+      if l_index mod 2 = 0 then begin
         if
           (* It's a file, consume entirely *)
           l_index >= r_index
-        then (
+        then begin
           let r_id = r_index / 2 in
           let r_length = int_of_string @@ String.sub s r_index 1 in
           let r_blocks_remaining = r_length - r_blocks_consumed in
           printf "terminating - all files to the right have been moved\n" ;
           printf "Note: using up the %d remaining blocks of file id %d with index %d\n" r_blocks_remaining r_id r_index ;
-          checksum_file r_id l_position r_blocks_remaining )
+          checksum_file r_id l_position r_blocks_remaining
+        end
         else
           let l_id = l_index / 2 in
           printf "file with id %d of length %d\n" l_id length ;
           checksum_file l_id l_position length + checksum (l_index + 1) (l_position + length) r_index r_blocks_consumed
-        )
-      else (
+      end
+      else begin
         printf "free space of length %d that " length ;
-        if l_index >= r_index then (
+        if l_index >= r_index then begin
           printf "does not need filling\n" ;
-          0 )
+          0
+        end
         else
           match l_remaining_space with
           | Some 0 ->
@@ -50,7 +53,7 @@ let checksum (s : string) =
               let r_id = r_index / 2 in
               let r_length = int_of_string @@ String.sub s r_index 1 in
               let r_blocks_remaining = r_length - r_blocks_consumed in
-              if r_blocks_remaining > 0 then (
+              if r_blocks_remaining > 0 then begin
                 let blocks_consuming = min l_remaining_space r_blocks_remaining in
                 printf
                   "    which will be filled with %d blocks from file id %d with index %d that had %d blocks remaining\n"
@@ -58,15 +61,18 @@ let checksum (s : string) =
                 let l_remaining_space = l_remaining_space - blocks_consuming in
                 let r_blocks_consumed = r_blocks_consumed + blocks_consuming in
                 checksum_file r_id l_position blocks_consuming
-                + checksum l_index (l_position + blocks_consuming) ~l_remaining_space r_index r_blocks_consumed )
-              else (
+                + checksum l_index (l_position + blocks_consuming) ~l_remaining_space r_index r_blocks_consumed
+              end
+              else begin
                 printf
                   "    but the file id %d with index %d has been used up completely, so we will start consuming \
                    another file\n\
                   \  retry: "
                   r_id r_index ;
                 (* We used up the file from the right, but there is space remaining, so consume more *)
-                checksum l_index l_position ~l_remaining_space (r_index - 2) 0 ) )
+                checksum l_index l_position ~l_remaining_space (r_index - 2) 0
+              end
+      end
   in
   let r_index = slen - 2 + (slen mod 2) in
   checksum 0 0 r_index 0

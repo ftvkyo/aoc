@@ -16,12 +16,13 @@ let find_antinodes (map_nodes : char Mat.t) antennas ac (ax, ay) =
     if Option.is_some @@ Mat.set_opt map_nodes x y node then add_nodes (x + dx, y + dy) (dx, dy)
   in
   let add_nodes (x, y) =
-    if (x, y) <> (ax, ay) then (
+    if (x, y) <> (ax, ay) then begin
       let dx, dy = x - ax, y - ay in
       let gcd = gcd dx dy in
       let dx, dy = dx / gcd, dy / gcd in
       add_nodes (x, y) (dx, dy) ;
-      add_nodes (x, y) (-dx, -dy) )
+      add_nodes (x, y) (-dx, -dy)
+    end
   in
   List.iter add_nodes siblings
 

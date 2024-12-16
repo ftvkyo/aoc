@@ -6,6 +6,7 @@ margin = 120
 
 break-cases = toplevel
 break-sequences = true
+exp-grouping = preserve
 space-around-arrays = true
 space-around-lists = true
 space-around-records = true

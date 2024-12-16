@@ -61,10 +61,11 @@ let walk map moves =
   let step move =
     let robot_x, robot_y, _ = Option.get @@ Mat.findi (fun _ _ c -> c = '@') map in
     let check = check_of (Mat.get map) move in
-    if check (robot_x, robot_y) then (
+    if check (robot_x, robot_y) then begin
       let update = update_of (Mat.get map) (Mat.set map) move in
       Mat.set map robot_x robot_y '.' ;
-      update (robot_x, robot_y) '@' )
+      update (robot_x, robot_y) '@'
+    end
   in
   Seq.iter step moves
 
