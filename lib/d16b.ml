@@ -33,11 +33,11 @@ let solve input =
     let state = x, y, dx, dy in
     match cost_get state with
     | Some state_cost ->
-        if state_cost < cost then begin
+        if state_cost = cost then begin
           Mat.set m x y 'O' ;
-          revisit (x - dx, y - dy) (dx, dy) state_cost ;
-          revisit (x, y) (turn_b (dx, dy)) state_cost ;
-          revisit (x, y) (turn_a (dx, dy)) state_cost
+          revisit (x - dx, y - dy) (dx, dy) (state_cost - 1) ;
+          revisit (x, y) (turn_b (dx, dy)) (state_cost - 1000) ;
+          revisit (x, y) (turn_a (dx, dy)) (state_cost - 1000)
         end
     | None -> ()
   in
@@ -51,7 +51,7 @@ let solve input =
         if cur_cost < nxt_cost then cur_state, cur_cost else nxt_state, nxt_cost )
       (List.hd e_costs) (List.tl e_costs)
   in
-  revisit (ex, ey) (edx, edy) (ecost + 1) ;
+  revisit (ex, ey) (edx, edy) ecost ;
   let ms = Mat.to_string m in
   printf "%s\n" ms ;
   let re_o = Str.regexp @@ Str.quote "O" in
